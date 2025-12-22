@@ -1,38 +1,21 @@
 package com.aihealthcare.aihealthcare.dto.response;
 
-import com.aihealthcare.aihealthcare.domain.HealthRecordEntity;
+import lombok.*;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class HealthRecordResponse {
-
     private Long id;
-    private Double weightKg;
-    private String memo;
-    private LocalDateTime recordedAt;
-
-    public static HealthRecordResponse from(HealthRecordEntity entity) {
-        HealthRecordResponse res = new HealthRecordResponse();
-        res.id = entity.getId();
-        res.weightKg = entity.getWeightKg();
-        res.memo = entity.getMemo();
-        res.recordedAt = entity.getRecordedAt();
-        return res;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public Double getWeightKg() {
-        return weightKg;
-    }
-
-    public String getMemo() {
-        return memo;
-    }
-
-    public LocalDateTime getRecordedAt() {
-        return recordedAt;
-    }
+    private LocalDate recordDate;
+    private BigDecimal weightKg;
+    private String note;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }
