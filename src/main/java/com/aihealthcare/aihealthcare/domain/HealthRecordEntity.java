@@ -1,53 +1,54 @@
 package com.aihealthcare.aihealthcare.domain;
 
 import jakarta.persistence.*;
+import lombok.*;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @Entity
-@Table(name = "health_record")
+@Table(
+        name = "health_record",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "uk_health_record_record_date", columnNames = {"record_date"})
+        }
+)
 public class HealthRecordEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private Double weightKg;
+    @Column(name = "record_date", nullable = false)
+    private LocalDate recordDate;
 
-    @Column(length = 500)
-    private String memo;
+    @Column(name = "weight_kg", precision = 5, scale = 2)
+    private BigDecimal weightKg;
 
-    @Column(nullable = false)
-    private LocalDateTime recordedAt;
+    @Column(name = "note", length = 500)
+    private String note;
 
-    protected HealthRecordEntity() {
-        // JPA 기본 생성자
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at", nullable = false)
+    private LocalDateTime updatedAt;
+
+    @PrePersist
+    void onCreate() {
+        LocalDateTime now = LocalDateTime.now();
+        this.createdAt = now;
+        this.updatedAt = now;
     }
 
-    private HealthRecordEntity(Double weightKg, String memo, LocalDateTime recordedAt) {
-        this.weightKg = weightKg;
-        this.memo = memo;
-        this.recordedAt = recordedAt;
-    }
-
-    public static HealthRecordEntity create(Double weightKg, String memo) {
-        return new HealthRecordEntity(weightKg, memo, LocalDateTime.now());
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public Double getWeightKg() {
-        return weightKg;
-    }
-
-    public String getMemo() {
-        return memo;
-    }
-
-    public LocalDateTime getRecordedAt() {
-        return recordedAt;
+    @PreUpdate
+    void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
     }
 }

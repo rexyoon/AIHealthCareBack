@@ -13,6 +13,7 @@ spring:
             dialect: org.hibernate.dialect.MySQL8Dialect
             format_sql: true
           show-sql: true
+          database-platform: org.hibernate.dialect.MySQL8Dialect
 logging:
   level:
     org.hivernate.SQL: debug

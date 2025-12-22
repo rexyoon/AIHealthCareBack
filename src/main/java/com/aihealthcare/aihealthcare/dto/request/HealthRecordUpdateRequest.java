@@ -3,15 +3,13 @@ package com.aihealthcare.aihealthcare.dto.request;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class HealthRecordCreateRequest {
-    private LocalDate recordDate;
+public class HealthRecordUpdateRequest {
     private BigDecimal weightKg;
     private String note;
 }
