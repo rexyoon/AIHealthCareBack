@@ -14,18 +14,20 @@ java {
     }
 }
 
+// Elasticsearch 버전 강제 설정 제거함
+ext {
+    set('springAiVersion', "1.0.3")
+}
+
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
+    // 복잡한 resolutionStrategy 제거함 (이제 필요 없음)
 }
 
 repositories {
     mavenCentral()
-}
-
-ext {
-    set('springAiVersion', "1.0.3")
 }
 
 dependencies {
@@ -42,18 +44,24 @@ dependencies {
     implementation 'org.flywaydb:flyway-core'
     implementation 'org.flywaydb:flyway-mysql'
     implementation 'org.liquibase:liquibase-core'
-    implementation 'org.springframework.ai:spring-ai-advisors-vector-store'
+
+    // 👇 [중요] Elasticsearch Vector Store 제거됨
+    // implementation 'org.springframework.ai:spring-ai-starter-vector-store-elasticsearch'
+
+    // 👇 OpenAI 모델은 남겨둠 (채팅 기능 등 사용 시 필요)
     implementation 'org.springframework.ai:spring-ai-starter-model-openai'
-    implementation 'org.springframework.ai:spring-ai-starter-vector-store-elasticsearch'
-    implementation 'org.springframework.ai:spring-ai-starter-vector-store-pgvector'
+
     implementation 'org.springframework.kafka:spring-kafka'
     implementation 'org.springframework.session:spring-session-data-redis'
+
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
     runtimeOnly 'com.mysql:mysql-connector-j'
     developmentOnly 'org.springframework.ai:spring-ai-spring-boot-docker-compose'
+
     annotationProcessor 'org.projectlombok:lombok'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.projectreactor:reactor-test'
     testImplementation 'org.springframework.amqp:spring-rabbit-test'
