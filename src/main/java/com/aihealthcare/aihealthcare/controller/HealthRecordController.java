@@ -1,62 +1,46 @@
 package com.aihealthcare.aihealthcare.controller;
 
-import com.aihealthcare.aihealthcare.dto.request.HealthRecordCreateRequest;
-import com.aihealthcare.aihealthcare.dto.request.HealthRecordUpdateRequest;
+import com.aihealthcare.aihealthcare.dto.request.HealthRecordRequest;
 import com.aihealthcare.aihealthcare.dto.response.HealthRecordResponse;
 import com.aihealthcare.aihealthcare.service.HealthRecordService;
-import org.springframework.format.annotation.DateTimeFormat;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import java.net.URI;
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/health-records")
-public class HealthRecordController{
+@RequestMapping("/api/health")
+@RequiredArgsConstructor
+@CrossOrigin(origins = "*") // React 연동 허용
+public class HealthRecordController {
+
     private final HealthRecordService healthRecordService;
-    public HealthRecordController(HealthRecordService healthRecordService){
-        this.healthRecordService = healthRecordService;
-    }
 
+    // 1. 기록 저장: POST /api/health
     @PostMapping
-    public ResponseEntity<HealthRecordResponse> create(@Valid @RequestBody HealthRecordCreateRequest request){
-        HealthRecordResponse created = healthRecordService.create(request);
-
-        return ResponseEntity.created(URI.create("/api.health-records/"+ created.getId())).body(created);
-    }
-    @GetMapping("/{id}")
-    public ResponseEntity<HealthRecordResponse> getById(@PathVariable Long id){
-        HealthRecordResponse response = healthRecordService.getById(id);
-        return ResponseEntity.ok(response);
-    }
-    @GetMapping("/by-date")
-    public ResponseEntity<List<HealthRecordResponse>> getById(
-            @RequestParam("from") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
-            @RequestParam("to") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to
-    ){
-        List<HealthRecordResponse> response = healthRecordService.getByDate(from, to);
-        return ResponseEntity.ok(response);
-    }
-    @GetMapping
-    public ResponseEntity<List<HealthRecordResponse>> getAll(){
-        List<HealthRecordResponse>list = healthRecordService.getAll();
-        return ResponseEntity.ok(list);
+    public ResponseEntity<Long> saveHealthRecord(@RequestBody HealthRecordRequest request) {
+        Long recordId = healthRecordService.createRecord(request);
+        return ResponseEntity.ok(recordId);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<HealthRecordResponse>update(
-            @PathVariable Long id,
-            @Valid @RequestBody HealthRecordUpdateRequest request
-    ){
-        HealthRecordResponse updated = healthRecordService.update(id, request);
-        return ResponseEntity.ok(updated);
+    // 2. 내 기록 전체 조회: GET /api/health/user/{userId}
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<HealthRecordResponse>> getMyRecords(@PathVariable Long userId) {
+        return ResponseEntity.ok(healthRecordService.getRecordsByUserId(userId));
     }
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id){
-        healthRecordService.delete(id);
-        return ResponseEntity.noContent().build();
+
+    // 3. 기록 수정: PUT /api/health/{recordId}
+    @PutMapping("/{recordId}")
+    public ResponseEntity<Void> updateHealthRecord(@PathVariable Long recordId, @RequestBody HealthRecordRequest request) {
+        healthRecordService.updateRecord(recordId, request);
+        return ResponseEntity.ok().build();
+    }
+
+    // 4. 기록 삭제: DELETE /api/health/{recordId}
+    @DeleteMapping("/{recordId}")
+    public ResponseEntity<Void> deleteHealthRecord(@PathVariable Long recordId) {
+        healthRecordService.deleteRecord(recordId);
+        return ResponseEntity.ok().build();
     }
 }

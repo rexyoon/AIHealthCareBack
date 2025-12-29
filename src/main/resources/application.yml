@@ -4,7 +4,7 @@ spring:
       api-key: ${OPENAI_API_KEY}
 
   datasource:
-    url: jdbc:mysql://localhost:3306/aihealthcare?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/aihealthcaredb?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: rexyoon
     password: 1234
     driver-class-name: com.mysql.cj.jdbc.Driver

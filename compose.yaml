@@ -1,11 +1,11 @@
 services:
   mysql:
     image: mysql:8.0
-    container_name: aihealthcare
+    container_name: aihealthcaredb
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: "Jeffjung@407"
-      MYSQL_DATABASE: "aihealthcare"
+      MYSQL_DATABASE: "aihealthcaredb"
       TZ: "Asia/Seoul"
     ports:
       - "3307:3306"
