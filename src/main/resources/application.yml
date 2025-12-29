@@ -1,9 +1,22 @@
 spring:
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY}
+
   datasource:
     url: jdbc:mysql://localhost:3306/aihealthcare?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: rexyoon
     password: 1234
     driver-class-name: com.mysql.cj.jdbc.Driver
+
+  spring:
+    liquibase:
+      change-log: classpath:/db/changelog/db.changelog-master.yaml
+
+
+  autoconfigure:
+    exclude: org.springframework.ai.vectorstore.elasticsearch.autoconfigure.ElasticsearchVectorStoreAutoConfiguration
+
 
     jpa:
       hibernate:
