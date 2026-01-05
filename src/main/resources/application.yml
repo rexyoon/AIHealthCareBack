@@ -1,4 +1,6 @@
 spring:
+  server:
+    port: 8080
   ai:
     openai:
       api-key: ${OPENAI_API_KEY}
@@ -9,25 +11,23 @@ spring:
     password: 1234
     driver-class-name: com.mysql.cj.jdbc.Driver
 
-  spring:
-    liquibase:
-      change-log: classpath:/db/changelog/db.changelog-master.yaml
-
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-master.yaml
 
   autoconfigure:
     exclude: org.springframework.ai.vectorstore.elasticsearch.autoconfigure.ElasticsearchVectorStoreAutoConfiguration
 
+  jpa:
+    hibernate:
+      ddl-auto: update
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.MySQL8Dialect
+          format_sql: true
+      show-sql: true
+      database-platform: org.hibernate.dialect.MySQL8Dialect
 
-    jpa:
-      hibernate:
-        ddl-auto: update
-        properties:
-          hibernate:
-            dialect: org.hibernate.dialect.MySQL8Dialect
-            format_sql: true
-          show-sql: true
-          database-platform: org.hibernate.dialect.MySQL8Dialect
 logging:
   level:
-    org.hivernate.SQL: debug
-    org.hibernate.type.descroptor.sql: trace
+    org.hibernate.SQL: debug
+    org.hibernate.type.descriptor.sql: trace
