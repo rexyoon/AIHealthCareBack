@@ -4,6 +4,10 @@ spring:
   ai:
     openai:
       api-key: ${OPENAI_API_KEY}
+      chat:
+        options:
+          model: gpt-4o-mini
+          temperature: 0.2
 
   datasource:
     url: jdbc:mysql://localhost:3306/aihealthcaredb?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
