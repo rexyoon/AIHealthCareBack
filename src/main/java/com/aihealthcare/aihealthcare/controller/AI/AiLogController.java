@@ -1,4 +1,4 @@
-package com.aihealthcare.aihealthcare.controller;
+package com.aihealthcare.aihealthcare.controller.AI;
 
 import com.aihealthcare.aihealthcare.domain.AI.AiAnalysisLog;
 import com.aihealthcare.aihealthcare.repository.AiAnalysisLogResporitory;

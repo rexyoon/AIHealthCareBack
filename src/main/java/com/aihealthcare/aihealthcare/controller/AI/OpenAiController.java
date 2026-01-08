@@ -1,7 +1,6 @@
-package com.aihealthcare.aihealthcare.controller;
+package com.aihealthcare.aihealthcare.controller.AI;
 
 import com.aihealthcare.aihealthcare.dto.request.QueryRequest;
-import com.aihealthcare.aihealthcare.dto.response.QueryResponse;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
