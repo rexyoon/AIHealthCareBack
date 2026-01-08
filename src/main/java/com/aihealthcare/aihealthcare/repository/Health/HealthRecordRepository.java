@@ -1,6 +1,6 @@
-package com.aihealthcare.aihealthcare.repository;
+package com.aihealthcare.aihealthcare.repository.Health;
 
-import com.aihealthcare.aihealthcare.domain.HealthRecord;
+import com.aihealthcare.aihealthcare.domain.health.HealthRecord;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 

@@ -1,6 +1,6 @@
-package com.aihealthcare.aihealthcare.domain;
+package com.aihealthcare.aihealthcare.domain.AI;
 
-import com.aihealthcare.aihealthcare.domain.user.User;
+import com.aihealthcare.aihealthcare.domain.health.HealthRecord;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;

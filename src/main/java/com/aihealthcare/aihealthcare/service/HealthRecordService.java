@@ -1,14 +1,13 @@
 package com.aihealthcare.aihealthcare.service;
 
 // [중요 1] HealthRecord 파일 자체의 위치 (보내주신 코드 기준 domain 패키지)
-import com.aihealthcare.aihealthcare.domain.HealthRecord;
+import com.aihealthcare.aihealthcare.domain.health.HealthRecord;
 
 // [중요 2] HealthRecord 안에서 import 하고 있는 User의 위치 (domain.user 패키지)
-import com.aihealthcare.aihealthcare.domain.user.User;
 
 import com.aihealthcare.aihealthcare.dto.request.HealthRecordRequest;
 import com.aihealthcare.aihealthcare.dto.response.HealthRecordResponse;
-import com.aihealthcare.aihealthcare.repository.HealthRecordRepository;
+import com.aihealthcare.aihealthcare.repository.Health.HealthRecordRepository;
 import com.aihealthcare.aihealthcare.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

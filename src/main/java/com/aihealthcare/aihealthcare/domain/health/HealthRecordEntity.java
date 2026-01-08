@@ -1,4 +1,4 @@
-package com.aihealthcare.aihealthcare.domain;
+package com.aihealthcare.aihealthcare.domain.health;
 
 import jakarta.persistence.*;
 import lombok.*;

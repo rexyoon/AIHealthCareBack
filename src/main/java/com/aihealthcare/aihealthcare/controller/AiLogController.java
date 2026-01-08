@@ -1,8 +1,7 @@
 package com.aihealthcare.aihealthcare.controller;
 
-import com.aihealthcare.aihealthcare.domain.AiAnalysisLog;
+import com.aihealthcare.aihealthcare.domain.AI.AiAnalysisLog;
 import com.aihealthcare.aihealthcare.repository.AiAnalysisLogResporitory;
-import com.aihealthcare.aihealthcare.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
