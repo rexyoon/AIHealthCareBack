@@ -1,7 +1,6 @@
 package com.aihealthcare.aihealthcare.controller;
 
 import com.aihealthcare.aihealthcare.domain.Gender;
-import com.aihealthcare.aihealthcare.domain.user.User;
 import com.aihealthcare.aihealthcare.repository.UserRepository;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;

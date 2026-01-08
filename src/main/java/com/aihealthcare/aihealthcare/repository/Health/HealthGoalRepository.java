@@ -1,6 +1,6 @@
-package com.aihealthcare.aihealthcare.repository;
+package com.aihealthcare.aihealthcare.repository.Health;
 
-import com.aihealthcare.aihealthcare.domain.HealthGoal;
+import com.aihealthcare.aihealthcare.domain.health.HealthGoal;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

@@ -1,9 +1,7 @@
 package com.aihealthcare.aihealthcare.controller;
 
-import com.aihealthcare.aihealthcare.domain.HealthGoal;
-import com.aihealthcare.aihealthcare.domain.HealthGoal;
-import com.aihealthcare.aihealthcare.domain.user.User;
-import com.aihealthcare.aihealthcare.repository.HealthGoalRepository;
+import com.aihealthcare.aihealthcare.domain.health.HealthGoal;
+import com.aihealthcare.aihealthcare.repository.Health.HealthGoalRepository;
 import com.aihealthcare.aihealthcare.repository.UserRepository;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;

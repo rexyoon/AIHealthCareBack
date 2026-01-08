@@ -1,6 +1,6 @@
 package com.aihealthcare.aihealthcare.dto.response;
 
-import com.aihealthcare.aihealthcare.domain.HealthRecord;
+import com.aihealthcare.aihealthcare.domain.health.HealthRecord;
 import java.time.LocalDateTime;
 
 public record HealthRecordResponse(

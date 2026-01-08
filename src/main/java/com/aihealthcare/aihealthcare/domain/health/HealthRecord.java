@@ -1,4 +1,4 @@
-package com.aihealthcare.aihealthcare.domain;
+package com.aihealthcare.aihealthcare.domain.health;
 
 import com.aihealthcare.aihealthcare.domain.user.User;
 import jakarta.persistence.*;
