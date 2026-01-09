@@ -38,7 +38,7 @@ public class BloodTestEntity {
 
     // 1:1 관계 매핑 (BloodMetric이 주인이 아니므로 mappedBy 사용)
     @OneToOne(mappedBy = "bloodTest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private BloodMetric bloodMetric;
+    private BloodMetricEntity bloodMetric;
 
     @PrePersist
     protected void onCreate() {
