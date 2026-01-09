@@ -3,9 +3,10 @@ package com.aihealthcare.aihealthcare.service;
 import com.aihealthcare.aihealthcare.domain.Blood.BloodMetricEntity;
 import com.aihealthcare.aihealthcare.repository.BloodMetricRepository;
 import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.ai.chat.prompt.PromptTemplate; // 템플릿 기능 추가
+import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Service
@@ -20,11 +21,11 @@ public class AiCoachService {
     }
 
     public String analyzeBloodTest(Long testId) {
-        //DB 조회
+        // DB 조회
         BloodMetricEntity metrics = bloodMetricRepository.findByBloodTest_TestId(testId)
                 .orElseThrow(() -> new RuntimeException("검사 결과가 없습니다."));
 
-        //시스템 프롬프트 (코치의 두뇌 설정)
+        // 시스템 프롬프트 (코치의 두뇌 설정)
         String systemText = """
             당신은 'Iron Logic'이라는 이름의 AI 보디빌딩 케어 코치입니다.
             사용자의 혈액 검사 수치를 바탕으로 퍼포먼스 향상과 건강 관리를 위한 조언을 제공합니다.
@@ -44,49 +45,99 @@ public class AiCoachService {
             - 즉각적인 위험(예: 칼륨 수치 폭등 등)이 보이면 즉시 병원 방문을 권고하십시오.
             """;
 
-        //사용자 프롬프트 템플릿
-        //Spring AI의 PromptTemplate을 사용하여 데이터를 주입
+        // 사용자 프롬프트 템플릿
         String userPromptTemplate = """
             내 이번 혈액 검사 결과입니다. 보디빌딩 관점에서 분석해주세요.
             
             [호르몬]
             - 총 테스토스테론: {testosterone} ng/dL
+            - 유리 테스토스테론: {freeTestosterone} ng/dL
             - 에스트로겐(E2): {estradiol} pg/mL
             - 프로락틴: {prolactin} ng/mL
+            - TSH: {tsh} uIU/mL
+            - T3: {t3} ng/dL
+            - T4: {t4} ng/dL
+            - 렙틴: {leptin} ng/mL
             
             [간/신장 기능]
             - AST: {ast} IU/L
             - ALT: {alt} IU/L
+            - BUN: {bun} mg/dL
             - 크레아티닌: {creatinine} mg/dL
             - eGFR: {egfr}
             
             [혈중 지질]
             - 총 콜레스테롤: {cholesterol} mg/dL
+            - LDL: {ldl} mg/dL
+            - HDL: {hdl} mg/dL
+            - TG: {triglycerides} mg/dL
+            
+            [전해질]
+            - 나트륨: {sodium} mmol/L
+            - 칼륨: {potassium} mmol/L
+            - 마그네슘: {magnesium} mg/dL
+            
+            [생식선 자극 호르몬]
+            - LH: {lh} mIU/mL
+            - FSH: {fsh} mIU/mL
+            
+            [기타]
+            - 당화혈색소: {hba1c} % 
+            - CRP: {crp} mg/L
             
             위 수치를 바탕으로 현재 내 몸 상태와, 식단/운동/휴식 수정 방안을 알려주세요.
             """;
 
-        //템플릿에 데이터 채워넣기
+        // 템플릿에 데이터 채워넣기 (Map.of 제한/Null 문제 회피)
         PromptTemplate template = new PromptTemplate(userPromptTemplate);
-        Map<String, Object> map = Map.of(
-                "testosterone", metrics.getTestosteroneTotal(),
-                "estradiol", metrics.getEstradiolE2(),
-                "prolactin", metrics.getProlactin(),
-                "ast", metrics.getAst(),
-                "alt", metrics.getAlt(),
-                "creatinine", metrics.getCreatinine(),
-                "egfr", metrics.getEgfr(),
-                "cholesterol", metrics.getCholesterolTotal()
-        );
 
-        //렌더링된 메시지 생성
+        Map<String, Object> map = new LinkedHashMap<>();
+        putSafe(map, "testosterone", metrics.getTestosteroneTotal());
+        putSafe(map, "freeTestosterone", metrics.getTestosteroneFree());
+        putSafe(map, "estradiol", metrics.getEstradiolE2());
+        putSafe(map, "prolactin", metrics.getProlactin());
+        putSafe(map, "tsh", metrics.getTsh());
+        putSafe(map, "t3", metrics.getT3());
+        putSafe(map, "t4", metrics.getT4());
+        putSafe(map, "leptin", metrics.getLeptin());
+
+        putSafe(map, "ast", metrics.getAst());
+        putSafe(map, "alt", metrics.getAlt());
+        putSafe(map, "bun", metrics.getBun());
+        putSafe(map, "creatinine", metrics.getCreatinine());
+        putSafe(map, "egfr", metrics.getEgfr());
+
+        putSafe(map, "cholesterol", metrics.getCholesterolTotal());
+        putSafe(map, "ldl", metrics.getLdl());
+        putSafe(map, "hdl", metrics.getHdl());
+        putSafe(map, "triglycerides", metrics.getTriglycerides());
+
+        putSafe(map, "sodium", metrics.getSodium());
+        putSafe(map, "potassium", metrics.getPotassium());
+        putSafe(map, "magnesium", metrics.getMagnesium());
+
+        putSafe(map, "lh", metrics.getLh());
+        putSafe(map, "fsh", metrics.getFsh());
+
+        putSafe(map, "hba1c", metrics.getHba1c());
+        putSafe(map, "crp", metrics.getCrp());
+
+        // 렌더링된 메시지 생성
         String filledUserMessage = template.render(map);
 
-        //AI 호출
+        // AI 호출
         return chatClient.prompt()
                 .system(systemText)
                 .user(filledUserMessage)
                 .call()
                 .content();
+    }
+
+    /**
+     * PromptTemplate 바인딩용 안전 put
+     * - null이면 "N/A"로 넣어서 Map.of/Map.ofEntries의 null 금지 문제 회피
+     */
+    private void putSafe(Map<String, Object> map, String key, Object value) {
+        map.put(key, value != null ? value : "N/A");
     }
 }
