@@ -1,4 +1,5 @@
 package com.aihealthcare.aihealthcare.domain.Blood;
+
 import com.aihealthcare.aihealthcare.domain.user.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
