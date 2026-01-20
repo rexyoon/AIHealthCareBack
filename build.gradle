@@ -44,7 +44,7 @@ dependencies {
     implementation 'org.flywaydb:flyway-core'
     implementation 'org.flywaydb:flyway-mysql'
     implementation 'org.liquibase:liquibase-core'
-
+    implementation 'net.sourceforge.tess4j:tess4j:5.7.0'
     // 👇 [중요] Elasticsearch Vector Store 제거됨
     // implementation 'org.springframework.ai:spring-ai-starter-vector-store-elasticsearch'
 
