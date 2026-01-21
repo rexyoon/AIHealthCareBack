@@ -22,7 +22,7 @@ public class HealthMetricsService {
     public List<HealthMetricsHistoryItemResponse> getHistory(Long userId, String period) {
         int limit = resolveLimit(period);
 
-        List<HealthMetrics> list = repository.findByUserIdOrderByDateDesc(
+        List<HealthMetrics> list = repository.findByUserIdOrderByMetricsDateDesc(
                 userId,
                 PageRequest.of(0, limit)
         );
@@ -31,7 +31,7 @@ public class HealthMetricsService {
     }
 
     public HealthMetricsDashboardResponse getByDate(Long userId, LocalDate date) {
-        HealthMetrics m = repository.findByUserIdAndDate(userId, date)
+        HealthMetrics m = repository.findByUserIdAndMetricsDate(userId, date)
                 .orElseThrow(() -> new IllegalArgumentException("No metrics for date: " + date));
 
         return toDashboard(m);
@@ -49,7 +49,7 @@ public class HealthMetricsService {
     private HealthMetricsHistoryItemResponse toHistoryItem(HealthMetrics m) {
         return HealthMetricsHistoryItemResponse.builder()
                 .id(m.getId())
-                .date(m.getDate())
+                .date(m.getMetricsDate())
                 .testosteroneTotal(m.getTestosteroneTotal())
                 .estradiolE2(m.getEstradiolE2())
                 .ast(m.getAst())
@@ -61,7 +61,7 @@ public class HealthMetricsService {
     private HealthMetricsDashboardResponse toDashboard(HealthMetrics m) {
         return HealthMetricsDashboardResponse.builder()
                 .id(m.getId())
-                .date(m.getDate())
+                .date(m.getMetricsDate())
                 .testosteroneTotal(m.getTestosteroneTotal())
                 .testosteroneFree(m.getTestosteroneFree())
                 .estradiolE2(m.getEstradiolE2())

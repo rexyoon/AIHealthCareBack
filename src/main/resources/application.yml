@@ -15,7 +15,7 @@ spring:
 
   datasource:
     # [수정됨] mysql -> localhost, 3306 -> 3307
-    url: jdbc:mysql://localhost:3307/aihealthcaredb?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul
+    url: jdbc:mysql://localhost:3306/aihealthcaredb?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul
     username: root
     password: Jeffjung@407
     driver-class-name: com.mysql.cj.jdbc.Driver

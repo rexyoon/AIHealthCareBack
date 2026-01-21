@@ -10,9 +10,9 @@ import java.util.Optional;
 
 public interface HealthMetricsRepository extends JpaRepository<HealthMetrics, Long> {
 
-    List<HealthMetrics> findByUserIdOrderByDateDesc(Long userId);
+    List<HealthMetrics> findByUserIdOrderByMetricsDateDesc(Long userId);
 
-    List<HealthMetrics> findByUserIdOrderByDateDesc(Long userId, Pageable pageable);
+    List<HealthMetrics> findByUserIdOrderByMetricsDateDesc(Long userId, Pageable pageable);
 
-    Optional<HealthMetrics> findByUserIdAndDate(Long userId, LocalDate date);
+    Optional<HealthMetrics> findByUserIdAndMetricsDate(Long userId, LocalDate metricsDate);
 }

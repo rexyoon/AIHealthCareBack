@@ -1,8 +1,8 @@
 package com.aihealthcare.aihealthcare.domain.health;
 
-
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -10,8 +10,15 @@ import java.time.LocalDateTime;
 @Table(
         name = "health_metrics",
         indexes = {
-                @Index(name = "idx_health_metrics_user_date", columnList = "user_id, metrics_date", unique = true),
-                @Index(name = "idx_health_metrics_date", columnList = "metrics_date")
+                @Index(
+                        name = "idx_health_metrics_user_date",
+                        columnList = "user_id, metrics_date",
+                        unique = true
+                ),
+                @Index(
+                        name = "idx_health_metrics_date",
+                        columnList = "metrics_date"
+                )
         }
 )
 @Getter
@@ -25,14 +32,15 @@ public class HealthMetrics {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // 로그인 붙이기 전 단계면 userId만으로도 충분
+    // 로그인 붙이기 전 단계 → userId 직접 관리 OK
     @Column(name = "user_id", nullable = false)
     private Long userId;
 
+    // ❗ date → metricsDate 로 변경 (핵심)
     @Column(name = "metrics_date", nullable = false)
-    private LocalDate date;
+    private LocalDate metricsDate;
 
-    // --------- 주요 지표 (필요한 것만 먼저) ---------
+    // --------- 주요 지표 ---------
     private Double testosteroneTotal;
     private Double testosteroneFree;
     private Double estradiolE2;
@@ -54,7 +62,7 @@ public class HealthMetrics {
         LocalDateTime now = LocalDateTime.now();
         this.createdAt = now;
         this.updatedAt = now;
-        if (this.healthScore == null) this.healthScore = 70; // 기본값
+        if (this.healthScore == null) this.healthScore = 70;
     }
 
     @PreUpdate
