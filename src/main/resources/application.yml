@@ -1,4 +1,8 @@
 spring:
+  docker:
+    compose:
+      enabled: false
+
   server:
     port: 8080
   ai:
@@ -10,14 +14,17 @@ spring:
           temperature: 0.2
 
   datasource:
-    url: jdbc:mysql://localhost:3306/aihealthcaredb?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    username: rexyoon
-    password: 1234
+    # [수정됨] mysql -> localhost, 3306 -> 3307
+    url: jdbc:mysql://localhost:3307/aihealthcaredb?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul
+    username: root
+    password: Jeffjung@407
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.yaml
-
+    enabled: false
+  flyway:
+    enabled: false
   autoconfigure:
     exclude: org.springframework.ai.vectorstore.elasticsearch.autoconfigure.ElasticsearchVectorStoreAutoConfiguration
 
@@ -30,8 +37,11 @@ spring:
           format_sql: true
       show-sql: true
       database-platform: org.hibernate.dialect.MySQL8Dialect
+
+# [수정됨] 문법 오류 수정 (= 제거하고 : 사용)
 tesseract:
-  datapath=src/main/resources/tessdata:
+  datapath: src/main/resources/tessdata
+
 logging:
   level:
     org.hibernate.SQL: debug

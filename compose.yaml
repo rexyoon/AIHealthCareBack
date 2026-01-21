@@ -1,4 +1,5 @@
 services:
+  # 로컬 개발 시에는 이 backend 컨테이너가 아니라 IntelliJ에서 실행하는 앱을 사용하게 됩니다.
   backend:
     build:
       context: .
@@ -7,16 +8,23 @@ services:
       - "8080:8080"
     environment:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
+      # 만약 나중에 'docker-compose up'으로 백엔드까지 다 띄울 거라면
+      # DB 주소를 내부망 주소로 덮어씌워야 합니다.
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/aihealthcaredb?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&createDatabaseIfNotExist=true
+    depends_on:
+      - mysql
+
   mysql:
     image: mysql:8.0
     container_name: aihealthcaredb
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: "Jeffjung@407"
+      # MYSQL_USER: "root" <-- 루트 패스워드를 설정했으므로 이 줄은 없어도 됩니다(오히려 충돌 날 수도 있음). root 계정은 기본 생성됩니다.
       MYSQL_DATABASE: "aihealthcaredb"
       TZ: "Asia/Seoul"
     ports:
-      - "3307:3306"
+      - "3307:3306" # 호스트(내컴퓨터)의 3307 포트를 컨테이너의 3306으로 연결
     volumes:
       - mysql_data:/var/lib/mysql
     command: >
@@ -35,8 +43,6 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
-
-  # Elasticsearch 섹션 삭제됨 (메모리 절약)
 
 volumes:
   mysql_data:
