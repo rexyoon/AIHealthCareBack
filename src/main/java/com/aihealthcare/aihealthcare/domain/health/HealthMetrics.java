@@ -30,25 +30,33 @@ public class HealthMetrics {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "metrics_id") // 테이블의 PK 컬럼 이름에 맞춤
+    private Long metricsId; // id 필드 이름을 metricsId로 변경
 
-    // 로그인 붙이기 전 단계 → userId 직접 관리 OK
     @Column(name = "user_id", nullable = false)
     private Long userId;
 
-    // ❗ date → metricsDate 로 변경 (핵심)
     @Column(name = "metrics_date", nullable = false)
     private LocalDate metricsDate;
 
     // --------- 주요 지표 ---------
+    @Column(name = "testosterone_total")
     private Double testosteroneTotal;
+
+    @Column(name = "testosterone_free")
     private Double testosteroneFree;
+
+    @Column(name = "estradiol_e2")
     private Double estradiolE2;
 
+    @Column(name = "ast")
     private Double ast;
+
+    @Column(name = "alt")
     private Double alt;
 
     // 프론트 카드 도넛%용 (0~100)
+    @Column(name = "health_score")
     private Integer healthScore;
 
     @Column(name = "created_at", nullable = false)

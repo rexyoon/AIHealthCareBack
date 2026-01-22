@@ -48,7 +48,6 @@ public class HealthMetricsService {
 
     private HealthMetricsHistoryItemResponse toHistoryItem(HealthMetrics m) {
         return HealthMetricsHistoryItemResponse.builder()
-                .id(m.getId())
                 .date(m.getMetricsDate())
                 .testosteroneTotal(m.getTestosteroneTotal())
                 .estradiolE2(m.getEstradiolE2())
@@ -60,7 +59,6 @@ public class HealthMetricsService {
 
     private HealthMetricsDashboardResponse toDashboard(HealthMetrics m) {
         return HealthMetricsDashboardResponse.builder()
-                .id(m.getId())
                 .date(m.getMetricsDate())
                 .testosteroneTotal(m.getTestosteroneTotal())
                 .testosteroneFree(m.getTestosteroneFree())
