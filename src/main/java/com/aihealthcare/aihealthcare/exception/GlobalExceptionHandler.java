@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.Map;
+
 /**
  * 전역 예외 처리기
  * - CustomException: ErrorCode 기반으로 status/message 반환
@@ -56,5 +58,11 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(ApiResponse.fail("Server Error"));
+    }
+    @ExceptionHandler(ApiException.class)
+    public ResponseEntity<?> handleApi(ApiException e) {
+        return ResponseEntity
+                .status(e.getStatus())
+                .body(Map.of("message", e.getMessage()));
     }
 }
