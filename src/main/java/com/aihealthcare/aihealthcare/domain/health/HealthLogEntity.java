@@ -18,14 +18,14 @@ public class HealthLogEntity {
     @Column(name = "log_id")
     private Long logId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
 
     @Column(name = "recorded_at")
     private LocalDateTime recordedAt;
 
-    @Column(name = "weight_kg")
+    @Column(name = "weight_kg", precision = 38, scale = 2)
     private BigDecimal weightKg;
 
     @Column(name = "muscle_mass_kg")
