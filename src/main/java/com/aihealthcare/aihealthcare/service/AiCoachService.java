@@ -61,10 +61,10 @@ public class AiCoachService {
             SECTION 2: HUMAN_REPORT (사용자 가독성용 Markdown)
             - 호칭: '선수님' 또는 '회원님'
             - 구조:
-              1. 🚨 긴급 점검 (위험 요소가 있을 때만 표시)
-              2. 📊 현재 상태 디브리핑 (보디빌딩 관점 해석)
-              3. 🛡️ Iron Logic 솔루션 (영양/훈련/휴식)
-              4. 💡 닥터에게 질문하기 (병원 방문 시 물어볼 질문)
+              1.  긴급 점검 (위험 요소가 있을 때만 표시)
+              2.  현재 상태 디브리핑 (보디빌딩 관점 해석)
+              3.  Iron Logic 솔루션 (영양/훈련/휴식)
+              4.  닥터에게 질문하기 (병원 방문 시 물어볼 질문)
             """.formatted(SECTION_DELIMITER, SECTION_DELIMITER);
 
         // 2. 사용자 프롬프트: 실제 데이터 주입
